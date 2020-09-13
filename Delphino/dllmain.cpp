@@ -3,6 +3,14 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <iostream>
+#include <jni.h>
+#include <gl/GL.h>
+
+typedef jint(*hJNI_GetCreatedJavaVMs)(JavaVM** vmBuf, jsize bufLen, jsize* nVMs);
+hJNI_GetCreatedJavaVMs oJNI_GetCreatedJavaVMs;
+
+JavaVM* jvm;
+JNIEnv* jenv;
 
 using namespace std;
 
@@ -17,6 +25,22 @@ int __stdcall StartDelphino() {
     freopen("CONOUT$", "w", stderr);
 
     cout << "Delphino is injected!" << endl;
+
+    HMODULE jvmHandle = GetModuleHandleA("jvm.dll");
+    hJNI_GetCreatedJavaVMs oJNI_GetCreatedJavaVMs = (hJNI_GetCreatedJavaVMs)GetProcAddress(jvmHandle, "JNI_GetCreatedJavaVMs");
+    oJNI_GetCreatedJavaVMs(&jvm, 1, nullptr);
+    jvm->AttachCurrentThread((void**)&jenv, NULL);
+
+    if (jenv != nullptr) {
+        cout << "Found JVM & JEnv!" << endl;
+
+
+
+
+    }
+    else {
+        cout << "Failed to find JVM & JEnv!" << endl;
+    }
 
     return 1;
 }
