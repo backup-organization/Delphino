@@ -171,6 +171,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Cheats\CheatManager.h" />
+    <ClInclude Include="Cheats\Cheat.h" />
+    <ClInclude Include="Cheats\ManagedItem.h" />
+    <ClInclude Include="Cheats\Manager.h" />
+    <ClInclude Include="Cheats\pch.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\gui\pch.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\settings\GameSettings.h" />
@@ -185,6 +190,8 @@
     <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Cheats\CheatManager.cpp" />
+    <ClCompile Include="Cheats\Cheat.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\settings\GameSettings.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\Minecraft.cpp" />

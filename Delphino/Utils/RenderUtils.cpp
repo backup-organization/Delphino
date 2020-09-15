@@ -26,6 +26,21 @@ jobject RenderUtils::getFontRenderer()
     return jenv->GetObjectField(mc, fontRendererField);
 }
 
+int RenderUtils::measureText(string text)
+{
+    JNIEnv* jenv = Utils::getJNI();
+    jobject fontRenderer = getFontRenderer();
+    if (fontRenderer == NULL) {
+        cout << "Coudn't draw text because fontRenderer was NULL!" << endl;
+        return 0.0f;
+    }
+    jmethodID measureText = jenv->GetMethodID(jenv->GetObjectClass(fontRenderer), "func_78256_a", "(Ljava/lang/String;)I");
+
+    jstring text_jstr = jenv->NewStringUTF(text.c_str());
+
+    return jenv->CallIntMethod(fontRenderer, measureText, text_jstr);
+}
+
 void RenderUtils::drawText(string text, float x, float y, int color, bool shadow)
 {
     JNIEnv* jenv = Utils::getJNI();
@@ -49,8 +64,8 @@ void RenderUtils::drawRect(Vector4f rect, Color color)
 {
     RenderUtils::drawRect(rect.x,
         rect.y,
-        rect.z,
-        rect.w,
+        rect.x+rect.z,
+        rect.y+rect.w,
         color.x,
         color.y,
         color.z,
@@ -62,11 +77,11 @@ void RenderUtils::drawRect(float x, float y, float z, float w, float r, float g,
     //glPushMatrix();
 
     glBegin(GL_QUADS);
-        glColor4f(r, g, b, a);
-        glVertex2f(x, y);
-        glVertex2f(z, y);
-        glVertex2f(z, w);
-        glVertex2f(x, w);
+    glColor4f(r, g, b, a);
+    glVertex2f(x, y);
+    glVertex2f(x, w);
+    glVertex2f(z, w);
+    glVertex2f(z, y);
     glEnd();
 
     //glPopMatrix();
@@ -77,6 +92,12 @@ void RenderUtils::drawRect(float x, float y, float z, float w, float r, float g,
 
 typedef BOOL(*type_wglSwapLayerBuffers)(HDC, UINT);
 type_wglSwapLayerBuffers owglSwapLayerBuffers;
+
+vector<function<void()>> callbacks;
+void RenderUtils::onRender(function<void()> callback)
+{
+    callbacks.push_back(callback);
+}
 
 BOOL oglHook(HDC hdc, UINT uint) {
     glPushMatrix();
@@ -91,20 +112,9 @@ BOOL oglHook(HDC hdc, UINT uint) {
     glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
 
-    //RenderUtils::drawRect(Vector4f(0, 10, 100, 40), Color(1.0f, 1.0f, 1.0f, 1.0f));
-
-    glBegin(GL_QUADS);
-    glLineWidth(10);
-    glColor4f(1, 1, 1, 1);
-    glVertex2f(0, 0);
-    glVertex2f(100, 0);
-    glVertex2f(100, 100);
-    glVertex2f(0, 100);
-    glEnd();
-
-    /*int guiScale = RenderUtils::getGuiScale();
-    glScalef(guiScale, guiScale, guiScale);
-    RenderUtils::drawText("Delphino", 0, 10, 0xFFFFFFFF, true);*/
+    for (int i = 0; i++; callbacks.size()) {
+        callbacks[i]();
+    }
 
     glEnable(GL_DEPTH_TEST);
 
