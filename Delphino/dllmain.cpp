@@ -1,40 +1,15 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 #include <Windows.h>
-#include <stdio.h>
 #include <iostream>
-#include <jni.h>
-#include <gl/GL.h>
-#include <wingdi.h>
-#include <MinHook.h>
+#include <string>
+#include "Utils/Utils.h"
+#include "Utils/RenderUtils.h"
 
 using namespace std;
 
-typedef jint(*hJNI_GetCreatedJavaVMs)(JavaVM** vmBuf, jsize bufLen, jsize* nVMs);
-hJNI_GetCreatedJavaVMs oJNI_GetCreatedJavaVMs;
-
-typedef BOOL (*type_wglSwapLayerBuffers)(HDC, UINT);
-type_wglSwapLayerBuffers owglSwapLayerBuffers;
-
-BOOL oglHook(HDC hdc, UINT uint) {
-    cout << "Render!" << endl;
-
-    glBegin(GL_LINES);
-    glLineWidth(4);
-    glVertex2f(0, 0);
-    glVertex2f(100, 100);
-    glEnd();
-
-    //Sleep(100);
-
-    return owglSwapLayerBuffers(hdc, uint);
-}
-
-JavaVM* jvm;
-JNIEnv* jenv;
-
-int __stdcall StartDelphino() {
-    MessageBoxA(nullptr, "Delphino has injected!", "DELPHINO", MB_OK);
+int __stdcall StartDelphino(HMODULE thisModule) {
+    //MessageBoxA(nullptr, "Delphino has injected! Click OK to execute the dll.", "DELPHINO", MB_OK);
 
     FreeConsole();
     AllocConsole();
@@ -42,43 +17,36 @@ int __stdcall StartDelphino() {
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
     freopen("CONOUT$", "w", stderr);
-
     cout << "Delphino is injected!" << endl;
 
-    HMODULE jvmHandle = GetModuleHandleA("jvm.dll");
-    hJNI_GetCreatedJavaVMs oJNI_GetCreatedJavaVMs = (hJNI_GetCreatedJavaVMs)GetProcAddress(jvmHandle, "JNI_GetCreatedJavaVMs");
-    oJNI_GetCreatedJavaVMs(&jvm, 1, nullptr);
-    jvm->AttachCurrentThread((void**)&jenv, NULL);
+    JNIEnv* jenv = Utils::getJNI();
 
     if (jenv != nullptr) {
         cout << "Found JVM & JEnv!" << endl;
-        HMODULE oGlHandle = GetModuleHandleA("OPENGL32.dll");
-        FARPROC fp = GetProcAddress(oGlHandle, "wglSwapBuffers");
+        
+        if (!RenderUtils::initRenderHook()) {
+            cout << "Failed to create render hook!" << endl;
+            return 1;
+        }
 
-        if (MH_Initialize() == MH_OK) {
-            cout << "Initialized MinHook" << endl;
-            if (MH_CreateHook(fp, &oglHook, (LPVOID*)&owglSwapLayerBuffers) == MH_OK) {
-                cout << "Created opengl hook!" << endl;
-                if (MH_EnableHook(fp) == MH_OK) {
-                    cout << "Enabled opengl hook!" << endl;
-                }
-                else {
-                    cout << "Failed to enable opengl hook!" << endl;
-                }
-            }
-            else {
-                cout << "Failed to create opengl hook!" << endl;
-            }
-        }
-        else {
-            cout << "Failed to initialized MinHook!" << endl;
-        }
+        jobject mc = Utils::getMC();
+        cout << "Found Minecraft instance at: " << mc << endl;
     }
     else {
         cout << "Failed to find JVM & JEnv!" << endl;
     }
 
-    return 1;
+    string line;
+    while (true) {
+        getline(cin, line);
+        if (line == "detach") {
+            RenderUtils::removeRenderHook();
+            FreeConsole();
+            FreeLibraryAndExitThread(thisModule, 0);
+        }
+    }
+
+    return 0;
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,

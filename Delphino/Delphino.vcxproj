@@ -172,16 +172,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\gui\pch.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\settings\GameSettings.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\Minecraft.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\pch.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\settings\pch.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Utils\Maths.h" />
+    <ClInclude Include="Utils\pch.h" />
+    <ClInclude Include="Utils\RenderUtils.h" />
+    <ClInclude Include="MCJAPI\net\minecraft\client\gui\ScaledResolution.h" />
+    <ClInclude Include="Utils\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="MCJAPI\net\minecraft\client\settings\GameSettings.cpp" />
+    <ClCompile Include="MCJAPI\net\minecraft\client\Minecraft.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Utils\RenderUtils.cpp" />
+    <ClCompile Include="MCJAPI\net\minecraft\client\gui\ScaledResolution.cpp" />
+    <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
