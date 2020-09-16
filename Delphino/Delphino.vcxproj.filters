@@ -63,7 +63,16 @@
     <ClInclude Include="Cheats\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cheats\CheatManager.h">
+    <ClInclude Include="Cheats\Hacks\TabGUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheats\Category.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheats\CategoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cheats\Hacks\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,11 +101,17 @@
     <ClCompile Include="Cheats\Cheat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cheats\CheatManager.cpp">
+    <ClCompile Include="Cheats\Hacks\TabGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheats\Category.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cheats\CategoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="..\packages.config" />
   </ItemGroup>
 </Project>

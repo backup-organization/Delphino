@@ -5,7 +5,7 @@
 #include <string>
 #include "Utils/Utils.h"
 #include "Utils/RenderUtils.h"
-#include "Cheats/CheatManager.h"
+#include "Cheats/CategoryManager.h"
 
 using namespace std;
 
@@ -37,7 +37,7 @@ int __stdcall StartDelphino(HMODULE thisModule) {
         cout << "Failed to find JVM & JEnv!" << endl;
     }
 
-    new CheatManager();
+    new CategoryManager();
 
     string line;
     while (true) {
