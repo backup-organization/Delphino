@@ -12,7 +12,7 @@ public:
 	static bool initRenderHook();
 	static void removeRenderHook();
 
-	static void onRender(function<void()>);
+	static void onRender(void(*func)());
 
 	static int getGuiScale();
 	static jobject getFontRenderer();
