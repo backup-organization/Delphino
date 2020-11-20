@@ -6,6 +6,8 @@
 #include "Utils/Utils.h"
 #include "Utils/RenderUtils.h"
 #include "Cheats/CategoryManager.h"
+#include "Hooks/WndProcHook.h"
+#include "MCJAPI/net/minecraft/client/Minecraft.h"
 
 using namespace std;
 
@@ -30,8 +32,11 @@ int __stdcall StartDelphino(HMODULE thisModule) {
             return 1;
         }
 
-        jobject mc = Utils::getMC();
+        Minecraft* mc = Utils::getMC();
         cout << "Found Minecraft instance at: " << mc << endl;
+
+        WndProcHook::install();
+        cout << "Installed wndProc hook" << endl;
     }
     else {
         cout << "Failed to find JVM & JEnv!" << endl;
@@ -44,6 +49,7 @@ int __stdcall StartDelphino(HMODULE thisModule) {
         getline(cin, line);
         if (line == "detach") {
             RenderUtils::removeRenderHook();
+            WndProcHook::uninstall();
             FreeConsole();
             FreeLibraryAndExitThread(thisModule, 0);
         }

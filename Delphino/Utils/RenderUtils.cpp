@@ -4,6 +4,7 @@
 #include <MinHook.h>
 #include <iostream>
 #include <gl/GL.h>
+#include "../MCJAPI/net/minecraft/client/Minecraft.h"
 
 using namespace std;
 

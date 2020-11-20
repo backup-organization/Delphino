@@ -51,7 +51,8 @@ namespace Delphino_Injector
 
         public static void awaitGame()
         {
-            while (true)
+            bool found = false;
+            while (!found)
             {
                 Thread.Sleep(10);
                 Process[] possiblilties = Process.GetProcessesByName("java");
@@ -59,20 +60,23 @@ namespace Delphino_Injector
                 {
                     continue;
                 }
-                Process tempGame = possiblilties[0];
-                if (tempGame.MainWindowHandle == null)
+                foreach(Process possible in possiblilties)
                 {
-                    continue;
+                    if (possible.MainWindowHandle == null)
+                    {
+                        continue;
+                    }
+                    StringBuilder sb = new StringBuilder("Minecraft".Length + 1);
+                    Win32.GetWindowText(possible.MainWindowHandle, sb, "Minecraft".Length + 1);
+                    if (!sb.ToString().Contains("Minecraft"))
+                    {
+                        continue;
+                    }
+                    game = possible;
+                    pHandle = Win32.OpenProcess(0x1F0FFF, true, game.Id);
+                    found = true;
+                    break;
                 }
-                StringBuilder sb = new StringBuilder("Minecraft 1.8.9".Length + 1);
-                Win32.GetWindowText(tempGame.MainWindowHandle, sb, "Minecraft 1.8.9".Length + 1);
-                if (sb.ToString().CompareTo("Minecraft 1.8.9") != 0)
-                {
-                    continue;
-                }
-                game = tempGame;
-                pHandle = Win32.OpenProcess(0x1F0FFF, true, game.Id);
-                break;
             }
         }
 

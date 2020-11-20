@@ -56,6 +56,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\packages\minhook.1.3.3\build\native\minhook.targets" Condition="Exists('..\packages\minhook.1.3.3\build\native\minhook.targets')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -179,6 +180,8 @@
     <ClInclude Include="Cheats\Manager.h" />
     <ClInclude Include="Cheats\pch.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Hooks\pch.h" />
+    <ClInclude Include="Hooks\WndProcHook.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\gui\pch.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\settings\GameSettings.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\Minecraft.h" />
@@ -197,6 +200,7 @@
     <ClCompile Include="Cheats\CategoryManager.cpp" />
     <ClCompile Include="Cheats\Cheat.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Hooks\WndProcHook.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\settings\GameSettings.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\Minecraft.cpp" />
     <ClCompile Include="pch.cpp">
@@ -207,8 +211,16 @@
     </ClCompile>
     <ClCompile Include="Cheats\Hacks\TabGUI.cpp" />
     <ClCompile Include="Utils\RenderUtils.cpp" />
-    <ClCompile Include="MCJAPI\net\minecraft\client\gui\ScaledResolution.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\minhook.1.3.3\build\native\minhook.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\minhook.1.3.3\build\native\minhook.targets'))" />
+  </Target>
 </Project>

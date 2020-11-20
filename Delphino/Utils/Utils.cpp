@@ -24,13 +24,13 @@ jclass Utils::getObject(JNIEnv* env, const char* className)
 	env->DeleteLocalRef(name);
 }
 
-Minecraft* Utils::getMC()
+class Minecraft* Utils::getMC()
 {
 	JNIEnv* env = Utils::getJNI();
 	jclass mcClass = Utils::getObject(env, "net.minecraft.client.Minecraft");
 	jmethodID smid = env->GetStaticMethodID(mcClass, "func_71410_x", "()Lnet/minecraft/client/Minecraft;");
 	_jobject* mcjobj = env->CallStaticObjectMethod(mcClass, smid);
-	return (Minecraft*)mcjobj;
+	return (class Minecraft*)mcjobj;
 }
 
 JNIEnv* Utils::getJNI()

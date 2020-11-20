@@ -1,6 +1,5 @@
 #pragma once
 #include <jni.h>
-#include "../MCJAPI/net/minecraft/client/Minecraft.h"
 
 using namespace std;
 
