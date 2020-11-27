@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-class WndProcHook
+class ImGuiHook
 {
 public:
 	static void install();

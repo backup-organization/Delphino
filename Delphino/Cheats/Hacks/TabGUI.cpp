@@ -4,12 +4,15 @@
 #include <iostream>
 #include <gl/GL.h>
 #include "../CategoryManager.h"
+#include "../../ImGUI/imgui.h"
 
 using namespace std;
 
 TabGUI* instance;
 void onRender() 
 {
+	ImGui::Begin("Test");
+	ImGui::End();
 	if (instance->enabled) {
 		vector<Category*>* categories = CategoryManager::getInstance()->getItems();
 

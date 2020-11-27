@@ -5,6 +5,8 @@
 #include <iostream>
 #include <gl/GL.h>
 #include "../MCJAPI/net/minecraft/client/Minecraft.h"
+#include "../ImGUI/imgui.h"
+#include "../ImGUI/imgui_impl_win32.h"
 
 using namespace std;
 
@@ -115,9 +117,13 @@ BOOL oglHook(HDC hdc, UINT uint) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
     for (auto&& fn : callbacks)
         fn();
 
+    ImGui::Render();
     glEnable(GL_DEPTH_TEST);
 
     glPopMatrix();
