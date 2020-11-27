@@ -33,7 +33,7 @@ void WndProcHook::install()
 	using namespace std;
 	EnumWindows(EnumWindowsProc, 0);
 	if (window != nullptr) {
-		oriWndProc = (WNDPROC)SetWindowLongPtr(window, -4, (LONG)(LONG_PTR)WndProc);
+		oriWndProc = (WNDPROC)SetWindowLongPtrA(window, -4, (LONG_PTR)&WndProc);
 		char wnd_title[MAX_PATH];
 		GetWindowTextA(window, wnd_title, MAX_PATH);
 		cout << "Hooked window with title: " << wnd_title << endl;
