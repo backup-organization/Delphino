@@ -6,9 +6,7 @@
 #include "Utils/Utils.h"
 #include "Utils/RenderUtils.h"
 #include "Cheats/CategoryManager.h"
-#include "Hooks/ImGuiHook.h"
 #include "MCJAPI/net/minecraft/client/Minecraft.h"
-#include "ImGUI/imgui.h"
 
 using namespace std;
 
@@ -35,9 +33,6 @@ int __stdcall StartDelphino(HMODULE thisModule) {
 
         Minecraft* mc = Utils::getMC();
         cout << "Found Minecraft instance at: " << mc << endl;
-
-        ImGuiHook::install();
-        cout << "Installed wndProc hook" << endl;
     }
     else {
         cout << "Failed to find JVM & JEnv!" << endl;
