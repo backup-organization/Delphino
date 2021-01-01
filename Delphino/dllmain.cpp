@@ -46,7 +46,6 @@ int __stdcall StartDelphino(HMODULE thisModule) {
         getline(cin, line);
         if (line == "detach") {
             RenderUtils::removeRenderHook();
-            ImGuiHook::uninstall();
             FreeConsole();
             FreeLibraryAndExitThread(thisModule, 0);
         }
