@@ -9,8 +9,7 @@ using namespace std;
 class RenderUtils
 {
 public:
-	static bool initRenderHook();
-	static void removeRenderHook();
+	static vector<void(*)()> callbacks;
 
 	static void onRender(void(*func)());
 

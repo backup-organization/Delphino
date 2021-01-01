@@ -5,6 +5,8 @@
 #include <string>
 #include "Utils/Utils.h"
 #include "Utils/RenderUtils.h"
+#include "Hooks/RenderHook.h"
+#include "Hooks/WndProcHook.h"
 #include "Cheats/CategoryManager.h"
 #include "MCJAPI/net/minecraft/client/Minecraft.h"
 
@@ -26,8 +28,12 @@ int __stdcall StartDelphino(HMODULE thisModule) {
     if (jenv != nullptr) {
         cout << "Found JVM & JEnv!" << endl;
         
-        if (!RenderUtils::initRenderHook()) {
+        if (!RenderHook::installHook()) {
             cout << "Failed to create render hook!" << endl;
+            return 1;
+        }
+        if (!WndProcHook::installHook()) {
+            cout << "Failed to create wnd proc hook!" << endl;
             return 1;
         }
 
@@ -45,7 +51,8 @@ int __stdcall StartDelphino(HMODULE thisModule) {
     while (true) {
         getline(cin, line);
         if (line == "detach") {
-            RenderUtils::removeRenderHook();
+            RenderHook::removeHook();
+            WndProcHook::removeHook();
             FreeConsole();
             FreeLibraryAndExitThread(thisModule, 0);
         }

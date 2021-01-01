@@ -181,6 +181,8 @@
     <ClInclude Include="Cheats\pch.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Hooks\pch.h" />
+    <ClInclude Include="Hooks\RenderHook.h" />
+    <ClInclude Include="Hooks\WndProcHook.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\gui\pch.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\settings\GameSettings.h" />
     <ClInclude Include="MCJAPI\net\minecraft\client\Minecraft.h" />
@@ -199,6 +201,8 @@
     <ClCompile Include="Cheats\CategoryManager.cpp" />
     <ClCompile Include="Cheats\Cheat.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Hooks\RenderHook.cpp" />
+    <ClCompile Include="Hooks\WndProcHook.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\settings\GameSettings.cpp" />
     <ClCompile Include="MCJAPI\net\minecraft\client\Minecraft.cpp" />
     <ClCompile Include="pch.cpp">

@@ -5,5 +5,6 @@ class TabGUI : public Cheat
 {
 public:
 	TabGUI();
+	void onKey(char key) override;
 };
 

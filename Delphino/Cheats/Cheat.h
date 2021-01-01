@@ -9,6 +9,7 @@ public:
 	virtual void onEnable() {};
 	virtual void onDisable() {};
 	virtual void onTick() {};
+	virtual void onKey(char key) {};
 	void onLoop() {
 		if (!enabled) {
 			if (wasEnabled) {
